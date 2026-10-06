@@ -8,19 +8,28 @@ import http from "http";
 
 import handleReqRes from "./helpers/handlerReqRes.js";
 
+import environment from "./helpers/environment.js";
+
+import data from './lib/data.js';
+
 //app object=module scaffolding
 const app={};
 
-//configuration
-app.config={
-    port:5000
-};
-
+//pore muche dibo
+//data.update('test','newfile',{'name':'england','language':'english'},(err)=>{
+//    console.log('error was'+err);
+//})
+data.delete('test','newfile',(err)=>{
+    console.log(err);
+});
+//data.read('test','newfile',(err,data)=>{
+//    console.log(err,data);
+//})
 //create server
 app.createServer=()=>{
     const server=http.createServer(app.handleReqRes);
-    server.listen(app.config.port,()=>{
-        console.log(`listening to port ${app.config.port}`);
+    server.listen(environment.port,()=>{
+        console.log(`listening to port ${environment.port}`);
     });
 };
 
