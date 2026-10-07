@@ -25,6 +25,23 @@ utilities.hash=(str)=>{
     return false;
 }
 
+utilities.createRandomString=(strlen)=>{
+    let len=strlen;
+    len=typeof(len)==='number' && len>0?len:false;
+    if(len){
+        const allowedChars='abcdefghijklmnopqrstuvwxyz0123456789';
+        let output='';
+        for(let i=1;i<=len;i+=1){
+            let c=allowedChars.charAt(Math.floor(Math.random()*allowedChars.length));
+            output+=c;
+        }
+        return output;
+    }
+    else{
+        return false;
+    }
+}
+
 
 
 

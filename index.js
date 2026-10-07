@@ -16,18 +16,7 @@ import data from './lib/data.js';
 const app={};
 
 
-/*
 
-data.update('test','newfile',{'name':'england','language':'english'},(err)=>{
-   console.log('error was'+err);
-})
-data.delete('test','newfile',(err)=>{
-    console.log(err);
-});
-data.read('test','newfile',(err,data)=>{
-    console.log(err,data);
-})
-*/
 
 
 //create server
