@@ -15,16 +15,21 @@ import data from './lib/data.js';
 //app object=module scaffolding
 const app={};
 
-//pore muche dibo
-//data.update('test','newfile',{'name':'england','language':'english'},(err)=>{
-//    console.log('error was'+err);
-//})
+
+/*
+
+data.update('test','newfile',{'name':'england','language':'english'},(err)=>{
+   console.log('error was'+err);
+})
 data.delete('test','newfile',(err)=>{
     console.log(err);
 });
-//data.read('test','newfile',(err,data)=>{
-//    console.log(err,data);
-//})
+data.read('test','newfile',(err,data)=>{
+    console.log(err,data);
+})
+*/
+
+
 //create server
 app.createServer=()=>{
     const server=http.createServer(app.handleReqRes);
