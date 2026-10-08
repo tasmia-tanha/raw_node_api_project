@@ -214,6 +214,66 @@ handler._checks.put = (requestProperties, callback) => {
   }
 };
 handler._checks.delete = (requestProperties, callback) => {
-  
+  const checkID=typeof(requestProperties.queryString.id)==='string' && requestProperties.queryString.id.trim().length===20?
+  requestProperties.queryString.id:false;
+  if(checkID){
+        const token=typeof(requestProperties.headerObjects.token)==='string' && requestProperties.headerObjects.token.trim().length===20?
+        requestProperties.headerObjects.token:false;
+        
+        lib.read("checks",checkID,(err,check)=>{
+            if(!err && check){
+                let checkObj=utilities.parseJSON(check);
+                tokenHandler._tokens.verify(token,checkObj.userPhone,(tokenISValid)=>{
+                    if(tokenISValid){
+                        lib.delete("checks",checkID,(err2)=>{
+                            if(!err2){
+                                lib.read("users",checkObj.userPhone,(err3,user)=>{
+                                    if(!err3 && user){
+                                        let userObj=utilities.parseJSON(user);
+                                        const userChecks=typeof(userObj.checks)==='object' && userObj.checks instanceof Array?
+                                        userObj.checks:[];
+                                        let checkPosition=userChecks.indexOf(checkID);
+                                        if(checkPosition>-1){
+                                            userChecks.splice(checkPosition,1);
+                                            userObj.checks=userChecks;
+                                            lib.update("users",userObj.phone,userObj,(err4)=>{
+                                                if(!err4){
+                                                    callback(200);
+                                                }else{
+                                                    callback(500,{
+                                                        'error':'server side problem'
+                                                    })
+                                                }
+                                            })
+                                        }else{
+                                            callback(500,{
+                                                'error':'server side problem'
+                                            })
+                                        }
+                                    }else{
+                                        callback(500,{
+                                            'error':'server side problem'
+                                        })
+                                    }
+                                })
+                            }else{
+                                callback(500,{
+                                    'error':'server side problem'
+                                })
+                            }
+                        })
+                    }else{
+                        callback(403,{
+                            'error':'auhtnetication failure'
+                        })
+                    }
+                })
+            }else{
+                callback(404,{
+                    'error':'check not found'
+                })
+            }
+        })
+  }      
 };
 export default handler;
